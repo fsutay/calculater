@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color:white;
+            width: 300px;
+            height: 420px;
+            margin: 0 auto;margin-top: 30px;
+            box-shadow: -1px 14px 35px 10px rgba(0,0,0,0.53);
+        }
+
+        #numberArea {
+            width: 300px;
+            height: 100px;
+            color: white;
+            text-align: right;
+            border: 0;
+            background-color: rgb(234, 6, 6);
+            font-size: 3rem;
+            padding-right: 20px;
+        }
+        #buttonPercent,
+        #buttonAc,
+        #buttonDel,
+        .value-buttons {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size:1.2rem;
+            margin-right: 10px;
+            margin-top: 5px;
+            margin-left: 10px;
+            text-align: center;
+            border: 0;
+        }
+
+        #resultButton {
+            width: 130px;
+            height: 50px;
+            font-size: 1.6rem;
+            margin-right: 10px;
+            margin-top: 8px;
+            margin-left: 10px;
+            border: 0;
+            background-color: rgb(234, 6, 6);
+            color: white;
+        }
+
+        .content {
+            padding-top: 20px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <input type="text" id="numberArea" value="0">
+            <input type="hidden" id="hiddenNumberArea">
+        </div>
+        <div class="content">
+            <button id="buttonAc">AC</button>
+            <button id="buttonDel" value="">DEL</button>
+            <button id="buttonPercent">%</button>
+            <button class="value-buttons" value="/">÷</button><br>
+            <button class="value-buttons" value="7">7</button>
+            <button class="value-buttons" value="8">8</button>
+            <button class="value-buttons" value="9">9</button>
+            <button class="value-buttons" value="*">x</button><br>
+            <button class="value-buttons" value="4">4</button>
+            <button class="value-buttons" value="5">5</button>
+            <button class="value-buttons" value="6">6</button>
+            <button class="value-buttons" value="-">-</button><br>
+            <button class="value-buttons" value="1">1</button>
+            <button class="value-buttons" value="2">2</button>
+            <button class="value-buttons" value="3">3</button>
+            <button class="value-buttons" value="+">+</button><br>
+            <button class="value-buttons" value="0">0</button>
+            <button class="value-buttons" value=".">,</button>
+            <button id="resultButton" value="=">=</button>
+        </div>
+    </div>
+    </div>
+    <script>
+        const valueButtons = document.querySelectorAll('.value-buttons');
+        const inputArea = document.querySelector('#numberArea');
+        const hiddenArea = document.querySelector('#hiddenNumberArea');
+        const buttonAc = document.querySelector('#buttonAc');
+        const resultButton = document.querySelector('#resultButton');
+        const buttonDel = document.querySelector('#buttonDel');
+        const buttonPercent = document.querySelector('#buttonPercent');
+
+        valueButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.value;
+                const text = button.textContent;
+                updateDisplay(value, text);
+            })
+        });
+
+        buttonAc.addEventListener('click', () => {
+            inputArea.value = "";
+            hiddenArea.value = "";
+        })
+        buttonDel.addEventListener('click', () => {
+            inputArea.value = inputArea.value.slice(0, -1);
+            hiddenArea.value = hiddenArea.value.slice(0, -1);
+        });
+        buttonPercent.addEventListener('click', () => {
+            inputArea.value=parseFloat(inputArea.value/100);
+            hiddenArea.value=parseFloat(hiddenArea.value/100);
+        })
+        resultButton.addEventListener('click', () => {
+            let firstCharacter = inputArea.value[0];
+            if (firstCharacter == '-') firstCharacter = inputArea.value[1];
+            let lastCharacter = inputArea.value[inputArea.value.length - 1];
+            if (!isNaN(firstCharacter) && !isNaN(lastCharacter)) {
+                inputArea.value = eval(hiddenArea.value);
+            };
+
+        })
+
+        updateDisplay = (value, text) => {
+            inputArea.value += text;
+            hiddenArea.value += value;
+        }
+    </script>
+</body>
+
+</html>
